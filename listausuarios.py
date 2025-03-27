@@ -1,8 +1,13 @@
 import json
 from textual.app import *
 from textual.widgets import *
+from firebase_admin import credentials, db
+from textual.widgets import DataTable, TabbedContent, TabPane
 
-
+cred = credentials.Certificate("serviceAccountKey.json")
+firebase_admin.initialize_app(cred, {
+    "databaseURL": "https://publicacionesapp-439d1.firebaseio.com"
+})
 class JsonListApp(App):
     def compose(self) -> ComposeResult:
         with TabbedContent():
@@ -10,8 +15,8 @@ class JsonListApp(App):
                 yield DataTable()
 
     def on_mount(self) -> None:
-        with open("registrocuentas.json", "r") as file:
-            data = json.load(file)
+        ref = db.reference("/registrocuentas")
+        data = ref.get() or {}
         
         table = self.query_one(DataTable)
         columnas = ["Nombre", "Apellido", "Usuario", "Genero", "Pais", "Correo"]
