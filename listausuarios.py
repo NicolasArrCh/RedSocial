@@ -3,6 +3,7 @@ from textual.app import *
 from textual.widgets import *
 from firebase_admin import credentials, db
 from textual.widgets import DataTable, TabbedContent, TabPane
+import firebase_admin
 
 cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
