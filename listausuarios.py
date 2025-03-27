@@ -1,30 +1,40 @@
-import json
 from textual.app import *
 from textual.widgets import *
 from firebase_admin import credentials, db
 from textual.widgets import DataTable, TabbedContent, TabPane
 import firebase_admin
+from textual.containers import Vertical
 
 cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
-    "databaseURL": "https://publicacionesapp-439d1.firebaseio.com"
+    "databaseURL": "https://tribucode-85a86-default-rtdb.firebaseio.com/"
 })
 class JsonListApp(App):
     def compose(self) -> ComposeResult:
         with TabbedContent():
             with TabPane("Usuarios"):
-                yield DataTable()
+                with Vertical():
+                    yield Label("Lista de Usuarios")
+                    yield DataTable(id="tabla")
 
     def on_mount(self) -> None:
-        ref = db.reference("/registrocuentas")
-        data = ref.get() or {}
-        
-        table = self.query_one(DataTable)
-        columnas = ["Nombre", "Apellido", "Usuario", "Genero", "Pais", "Correo"]
-        table.add_columns(*columnas)
-        for row in data:
-            table.add_row(str(row["nombre"]), row["apellido"], str(row["usuario"]), row["genero"], str(row["pais"]), row["correo"])
+        self.tabla = self.query_one("#tabla", DataTable)
+        self.tabla.add_columns("Nombre", "Apellido", "Usuario", "Genero", "Pais", "Correo")
+        self.obtener_datos()
 
+    def obtener_datos(self):
+        ref = db.reference("/users")
+        datos = ref.get() or {}
+        self.datos = [
+            [str(row.get("nombre", "")), row.get("apellido", ""), row.get("nickname", ""), row.get("genero", ""), row.get("pais", ""), str(row.get("correo", ""))]
+            for row in datos.values()
+        ]
+        self.actualizar_tabla(self.datos)
+
+    def actualizar_tabla(self, datos):
+        self.tabla.clear()
+        for fila in datos:
+            self.tabla.add_row(*fila)
 JsonListApp().run()
 
 
