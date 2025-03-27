@@ -5,10 +5,12 @@ from textual.widgets import *
 
 class JsonListApp(App):
     def compose(self) -> ComposeResult:
-        yield DataTable()
+        with TabbedContent():
+            with TabPane("Usuarios"):
+                yield DataTable()
 
     def on_mount(self) -> None:
-        with open("usuarios.json", "r") as file:
+        with open("registrocuentas.json", "r") as file:
             data = json.load(file)
         
         table = self.query_one(DataTable)
