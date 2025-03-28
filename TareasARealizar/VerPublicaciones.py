@@ -5,8 +5,12 @@ from textual.widgets import Header, Footer, Input, Static
 from textual.containers import ScrollableContainer
 import threading
 from datetime import datetime
+import os
+import firebase_admin
+from firebase_admin import credentials
 
-path = "./project_credentials.json"
+path = os.path.join(os.path.dirname(__file__), "project_credentials.json")
+cred = credentials.Certificate(path)
 url = "https://tribucode-85a86-default-rtdb.firebaseio.com/"
 
 fb_db = FirebaseDB(path, url)
