@@ -1,6 +1,4 @@
-import firebase_admin
 import traceback
-from firebase_admin import credentials, db
 from conn_base import FirebaseDB
 from textual.app import App, ComposeResult
 from textual.widgets import Header, Footer, Input, Static
@@ -13,14 +11,11 @@ url = "https://tribucode-85a86-default-rtdb.firebaseio.com/"
 
 fb_db = FirebaseDB(path, url)
 
-# Inicialización de Firebase
-firebase_db = FirebaseDB(CREDENTIAL_PATH, DATABASE_URL)
-
 def obtener_publicaciones():
     """Obtiene publicaciones específicamente del nodo /posts"""
     try:
         print("\n🔍 Buscando publicaciones en /posts...")
-        posts = firebase_db.read_record("/posts")
+        posts = fb_db.read_record("/posts")
         
         if not posts:
             print("⚠️ No se encontraron publicaciones en /posts")
