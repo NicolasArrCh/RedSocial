@@ -10,7 +10,6 @@ import firebase_admin
 from firebase_admin import credentials
 
 path = os.path.join(os.path.dirname(__file__), "project_credentials.json")
-cred = credentials.Certificate(path)
 url = "https://tribucode-85a86-default-rtdb.firebaseio.com/"
 
 fb_db = FirebaseDB(path, url)
