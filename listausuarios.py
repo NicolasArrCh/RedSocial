@@ -9,15 +9,11 @@ cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
     "databaseURL": "https://tribucode-85a86-default-rtdb.firebaseio.com/"
 })
-class JsonListApp(App):
+class UsuariosWidget(Vertical):
     def compose(self) -> ComposeResult:
-        with TabbedContent():
-            with TabPane("Usuarios"):
-                with Vertical():
-                    yield Label("Lista de Usuarios")
-                    yield Input(placeholder="Filtrar", id="filtro")
-                    yield Button("Buscar", id="btn_buscar")
-                    yield DataTable(id="tabla")
+        yield Input(placeholder="Filtrar", id="filtro")
+        yield Button("Buscar", id="btn_buscar")
+        yield DataTable(id="tabla")
 
     def on_mount(self) -> None:
         self.tabla = self.query_one("#tabla", DataTable)
@@ -47,4 +43,10 @@ class JsonListApp(App):
             datos_filtrados = [fila for fila in self.datos if filtro in fila[1].lower() or filtro in fila[2].lower() or filtro in fila[3].lower()]
         else:
             datos_filtrados = self.datos
+        self.actualizar_tabla(datos_filtrados)
+            
+class JsonListApp(App):
+    def compose(self) -> ComposeResult:
+        yield UsuariosWidget()
+        
 JsonListApp().run()
