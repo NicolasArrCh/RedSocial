@@ -8,9 +8,10 @@ from textual.containers import ScrollableContainer
 import threading
 from datetime import datetime
 
-# Configuración de Firebase
-CREDENTIAL_PATH = "/home/sebastian/Escritorio/CampusLands/MiRedSocial/RedSocial/TareasARealizar/tribucode-85a86-firebase-adminsdk-fbsvc-d1ff3ccd74.json"
-DATABASE_URL = "https://tribucode-85a86-default-rtdb.firebaseio.com/"
+path = "./project_credentials.json"
+url = "https://tribucode-85a86-default-rtdb.firebaseio.com/"
+
+fb_db = FirebaseDB(path, url)
 
 # Inicialización de Firebase
 firebase_db = FirebaseDB(CREDENTIAL_PATH, DATABASE_URL)
