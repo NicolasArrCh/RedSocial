@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import os
 import firebase_admin
 import bcrypt
@@ -50,29 +49,6 @@ def calcular_edad(fecha_nacimiento):
         return None  
 
 class RegistroApp(App):
-=======
-import bcrypt
-# from class_firebase_database import FirebaseDB
-from firebase_admin import db
-from textual.app import App, ComposeResult
-from textual.containers import Vertical, Center
-from textual.widgets import Input, Button, Label, Static
-from textual.message import Message
-from textual import on
-# from utilizarCrud import *
-from VerPublicaciones import *
-from prueba import *
-import os
-
-# Configuración de Firebase
-path = os.path.join(os.path.dirname(__file__), "project_credentials.json")
-cred = credentials.Certificate(path)
-url = "https://tribucode-85a86-default-rtdb.firebaseio.com/"
-
-fb_db = FirebaseDB(path, url)
-
-class TribuCodeLogin(App):
->>>>>>> origin/5-visualización-de-otros-usuarios
 
     CSS = """
     Screen {
