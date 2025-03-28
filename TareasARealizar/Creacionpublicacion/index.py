@@ -2,7 +2,7 @@ from class_firebase_database import FirebaseDB
 from firebase_admin import db
 import json
 
-path = r"E:\CAMPUSLAND\Software\4.Scrum\RedSocial\TareasARealizar\InicioDeSesiónDeUsuario\project_credentials.json"
+path = r"./project_credentials.json"
 
 url ="https://tribucode-85a86-default-rtdb.firebaseio.com/"
 
