@@ -19,7 +19,7 @@ url = "https://tribucode-85a86-default-rtdb.firebaseio.com/"
 fb_db = FirebaseDB(path, url)
 
 def obtener_publicaciones():
-    """Obtiene publicaciones específicamente del nodo /posts"""
+    """Obtiene publicaciones específicamente del nodo /posts"""    
     try:
         print("\n🔍 Buscando publicaciones en /posts...")
         posts = fb_db.read_record("/posts")
