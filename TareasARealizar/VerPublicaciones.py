@@ -1,13 +1,16 @@
 import traceback
 from conn_base import FirebaseDB
 from textual.app import App, ComposeResult
-from textual.widgets import Header, Footer, Input, Static
-from textual.containers import ScrollableContainer
+from textual.widgets import Header, Footer, Input, Static, Button
+from textual.containers import ScrollableContainer, Horizontal
 import threading
 from datetime import datetime
 import os
 import firebase_admin
 from firebase_admin import credentials
+from publicar import PublicacionesApp
+import asyncio
+from textual import on
 
 path = os.path.join(os.path.dirname(__file__), "project_credentials.json")
 url = "https://tribucode-85a86-default-rtdb.firebaseio.com/"
@@ -107,13 +110,24 @@ class RedSocialApp(App):
         margin-bottom: 1;
     }
     #search-container {
-        width: 60%;
+        width: 50%;
     }
     #user-info {
-        width: 40%;
+        width: 30%;
         text-align: right;
         color: #89b4fa;
         padding-right: 2;
+    }
+    #button-container {
+        width: 20%;
+        text-align: right;
+    }
+    #publicar-button {
+        background: #0FDBA8;
+        color: black;
+    }
+    #publicar-button:hover {
+        background: #0BCB90;
     }
     #contenedor-publicaciones {
         width: 100%;
@@ -156,6 +170,8 @@ class RedSocialApp(App):
             with ScrollableContainer(id="search-container"):
                 yield Input(placeholder="🔍 Buscar...", id="filtro-busqueda")
             yield Static(f"👤 {self.usuario_registrado}", id="user-info")
+            with ScrollableContainer(id="button-container"):
+                yield Button("📝 Publicar", id="publicar-button")
         self.mensaje_estado = Static("Cargando publicaciones...", id="mensaje-estado")
         yield self.mensaje_estado
         yield ScrollableContainer(id="contenedor-publicaciones")
@@ -201,6 +217,21 @@ class RedSocialApp(App):
     
     def on_input_changed(self, event: Input.Changed) -> None:
         self.cargar_publicaciones(event.value.strip())
+    @on(Button.Pressed, "#publicar-button")
+    def handle_publicar(self, event: Button.Pressed) -> None:
+        """Oculta la pantalla actual y abre la aplicación de publicaciones en una nueva ventana."""
+        try:
+            # Ocultar la interfaz actual
+            self.query_one("#contenedor-publicaciones").remove()
+            self.query_one("#mensaje-estado").remove()
+            
+            # Abrir la nueva ventana
+            app = PublicacionesApp()
+            asyncio.create_task(app.run_async())
+        except Exception as e:
+            print(f"Error al abrir PublicacionesApp: {e}")
+            traceback.print_exc()
+
 
 if __name__ == "__main__":
     print("=== INICIANDO APLICACIÓN ===")
