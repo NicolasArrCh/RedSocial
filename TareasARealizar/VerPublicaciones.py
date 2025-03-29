@@ -11,6 +11,7 @@ from firebase_admin import credentials
 from publicar import PublicacionesApp
 import asyncio
 from textual import on
+from listausuarios import *
 
 path = os.path.join(os.path.dirname(__file__), "project_credentials.json")
 url = "https://tribucode-85a86-default-rtdb.firebaseio.com/"
@@ -172,6 +173,7 @@ class RedSocialApp(App):
             yield Static(f"👤 {self.usuario_registrado}", id="user-info")
             with ScrollableContainer(id="button-container"):
                 yield Button("📝 Publicar", id="publicar-button")
+                yield Button("Usuarios", id="usuarios-button")
         self.mensaje_estado = Static("Cargando publicaciones...", id="mensaje-estado")
         yield self.mensaje_estado
         yield ScrollableContainer(id="contenedor-publicaciones")
@@ -227,6 +229,19 @@ class RedSocialApp(App):
             
             # Abrir la nueva ventana
             app = PublicacionesApp()
+            asyncio.create_task(app.run_async())
+        except Exception as e:
+            print(f"Error al abrir PublicacionesApp: {e}")
+            traceback.print_exc()
+    @on(Button.Pressed, "#usuarios-button")
+    def handle_usuarios(self, event: Button.Pressed) -> None:
+        """Oculta la pantalla actual y abre la aplicación de publicaciones en una nueva ventana."""
+        try:
+            # Ocultar la interfaz actual
+            self.query_one("#contenedor-publicaciones").remove()
+            self.query_one("#mensaje-estado").remove()
+            # Abrir la nueva ventana
+            app = JsonListApp()
             asyncio.create_task(app.run_async())
         except Exception as e:
             print(f"Error al abrir PublicacionesApp: {e}")
