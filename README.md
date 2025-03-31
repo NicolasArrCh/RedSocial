@@ -1,11 +1,17 @@
 Proyecto de:
 
 Camila Ivanna Dangond Tarazona.
+
 Carlos Andrés Cáceres Orduz.
+
 Álvaro Andrés Grimaldos Sarmiento.
+
 Juan Sebastián Martínez Tapias.
+
 Brayan Javier Mantilla Mendoza.
+
 Omar David Duran Pardo.
+
 Nicolás Felipe Arrubla Chaux.
 
 ## Contexto del Proyecto.
